@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import './InputForm.css'
 import Card from "../UI/Card";
 import Button from "../UI/Button";
@@ -8,6 +8,7 @@ const InputForm = (props) => {
     const [enteredName, setEnteredName] = useState('');
     const [enteredAge, setEnteredAge] = useState('');
     const [error, setError] = useState();
+    const clgInputRef = useRef();
 
     const nameChangeHandler = e => {
         
@@ -36,11 +37,13 @@ const InputForm = (props) => {
         };
         const userData = {
             name: enteredName,
-            age: enteredAge
+            age: enteredAge,
+            clgName: clgInputRef.current.value
         };
         props.onSubmittingForm(userData);
         setEnteredAge('')
         setEnteredName('')
+        clgInputRef.current.value = ''
     };
     const errorHandler = () => {
         setError(null)
@@ -58,6 +61,10 @@ const InputForm = (props) => {
                 <div>
                     <label htmlFor="userage">Age: </label>
                     <input type="number" id="userage" value={enteredAge} onChange={ageChangeHandler}></input>
+                </div>
+                <div>
+                    <label htmlFor="userclg">College Name: </label>
+                    <input type="text" id="userclg" ref={clgInputRef}></input>
                 </div>
                 <Button type="submit">Add User</Button>
             </form>
